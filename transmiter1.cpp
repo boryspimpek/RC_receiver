@@ -2,7 +2,6 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 #include <Adafruit_PCF8574.h>
-// Usunięto: #include <Preferences.h>
 
 // --- KONFIGURACJA PINÓW ---
 #define PIN_THROTTLE 32
@@ -23,18 +22,16 @@ struct __attribute__((packed)) RadioData {
 RadioData data;
 RF24 radio(CE_PIN, CS_PIN);
 Adafruit_PCF8574 pcf;
-// Usunięto: Preferences prefs;
 
 // Zmienne trymowania - teraz zawsze startują od 0 po włączeniu zasilania
 int8_t trim[4] = {0, 0, 0, 0}; 
 uint8_t lastPcfState = 0xFF;
 
-// Funkcja saveTrims została usunięta
+
 
 void setup() {
   Serial.begin(115200);
   
-  // Usunięto odczyt z Preferences
 
   // Inicjalizacja nRF24
   if (!radio.begin()) { Serial.println("Radio FAIL"); while(1); }
@@ -69,7 +66,6 @@ void loop() {
       if (i == 6) trim[3]++; if (i == 7) trim[3]--;
       
       Serial.printf("Trims: T:%d Y:%d P:%d R:%d\n", trim[0], trim[1], trim[2], trim[3]);
-      // Usunięto: saveTrims();
     }
   }
   lastPcfState = currentPcf;
